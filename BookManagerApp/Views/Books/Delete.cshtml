@@ -1,0 +1,78 @@
+@model BookManagerApp.Models.Book
+
+@{
+    ViewData["Title"] = "Xác Nhận Xóa Sách";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-trash3 me-2"></i>Xác Nhận Xóa Sách</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-warning d-flex align-items-center mb-4">
+                        <i class="bi bi-exclamation-circle-fill fs-3 text-danger me-3"></i>
+                        <div>
+                            <strong>Cảnh báo hành động quan trọng!</strong><br />
+                            Dữ liệu sau khi xóa sẽ biến mất vĩnh viễn khỏi SQL Server và không thể hoàn tác.
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush mb-4 border rounded">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold">Tên sách:</span>
+                            <span class="text-primary fw-semibold">@Model.Title</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold">Tác giả:</span>
+                            <span>@Model.Author</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold">Thể loại:</span>
+                            <span>@Model.Genre</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold">Giá bán:</span>
+                            <span class="text-danger fw-bold">@Model.Price?.ToString("N0") VNĐ</span>
+                        </li>
+                    </ul>
+
+                    <form asp-action="Delete" id="deleteBookForm">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Hủy Bỏ</a>
+                            <!-- Nút mở xác nhận lần 2 -->
+                            <button type="button" class="btn btn-danger px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalConfirmDelete">
+                                Xóa Sách Này
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xác nhận chắc chắn Xóa -->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title fw-bold"><i class="bi bi-shield-slash me-2"></i>Xác Nhận Lần Cuối</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4 text-center">
+                <p class="fs-5 text-dark mb-1">Bạn có <strong>thực sự chắc chắn</strong> muốn xóa cuốn sách:</p>
+                <p class="fs-5 text-danger fw-bold">"@Model.Title"</p>
+            </div>
+            <div class="modal-footer bg-light justify-content-center">
+                <button type="button" class="btn btn-secondary px-3" data-bs-dismiss="modal">Tôi suy nghĩ lại</button>
+                <button type="button" class="btn btn-danger px-4 fw-bold" onclick="document.getElementById('deleteBookForm').submit();">
+                    Đồng Ý Xóa Vĩnh Viễn
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

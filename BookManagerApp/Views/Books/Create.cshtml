@@ -1,0 +1,87 @@
+@model BookManagerApp.Models.Book
+
+@{
+    ViewData["Title"] = "Thêm Sách Mới";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <!-- Hộp cảnh báo khi thiếu thông tin (ẩn mặc định) -->
+            <div id="alertMissingFields" class="alert alert-danger alert-dismissible fade show d-none shadow-sm" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <strong>Điền thiếu thông tin!</strong> Vui lòng kiểm tra lại các trường có dấu (*) và nhập đầy đủ.
+                <button type="button" class="btn-close" onclick="document.getElementById('alertMissingFields').classList.add('d-none')"></button>
+            </div>
+
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white py-3">
+                    <h5 class="mb-0 fw-bold">📖 Thêm Sách Mới Vào Kho</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" id="createBookForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold"></label> <span class="text-danger">*</span>
+                            <input asp-for="Title" class="form-control" placeholder="Ví dụ: Lập trình C# căn bản" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Author" class="form-label fw-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="Author" class="form-control" placeholder="Tên tác giả..." />
+                                <span asp-validation-for="Author" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Genre" class="form-label fw-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="Genre" class="form-control" placeholder="Ví dụ: Công nghệ thông tin..." />
+                                <span asp-validation-for="Genre" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Price" class="form-label fw-bold"></label> <span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <input asp-for="Price" class="form-control" type="number" step="1000" placeholder="150000" />
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PublishedDate" class="form-label fw-bold"></label> <span class="text-danger">*</span>
+                                <input asp-for="PublishedDate" class="form-control" type="date" />
+                                <span asp-validation-for="PublishedDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Quay lại</a>
+                            <button type="submit" class="btn btn-success px-4 fw-bold shadow-sm">
+                                <i class="bi bi-save me-1"></i> Lưu Thông Tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('createBookForm').addEventListener('submit', function(e) {
+            var form = $(this);
+            if (!form.valid()) {
+                var alertBox = document.getElementById('alertMissingFields');
+                alertBox.classList.remove('d-none');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    </script>
+}

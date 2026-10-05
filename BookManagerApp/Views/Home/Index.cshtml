@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Hệ thống Quản lý Sách";
+}
+
+<div class="container py-4">
+    <!-- Hero Banner -->
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+        <div class="container-fluid py-3 text-center">
+            <h1 class="display-5 fw-bold text-primary">Hệ Thống Quản Lý Kho Sách</h1>
+            <p class="fs-5 text-muted col-md-8 mx-auto">
+                Giải pháp quản lý danh mục sách, theo dõi ấn phẩm, tác giả và giá bán trực quan, nhanh chóng.
+            </p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a asp-controller="Books" asp-action="Index" class="btn btn-primary btn-lg px-4">
+                    Xem Danh Sách Sách
+                </a>
+                <a asp-controller="Books" asp-action="Create" class="btn btn-success btn-lg px-4">
+                    + Thêm Sách Mới
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards tính năng -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 text-primary mb-2">📚</div>
+                    <h5 class="card-title fw-bold">Danh mục Đầy đủ</h5>
+                    <p class="card-text text-muted">Lưu trữ chi tiết thông tin tựa sách, thể loại, tác giả và ngày phát hành vào SQL Server.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 text-success mb-2">⚡</div>
+                    <h5 class="card-title fw-bold">Thao tác Nhanh</h5>
+                    <p class="card-text text-muted">Hỗ trợ đầy đủ chức năng Thêm mới, Chỉnh sửa thông tin, Xem chi tiết và Xóa sách tức thì.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 bg-light">
+                <div class="card-body text-center p-4">
+                    <div class="fs-1 text-warning mb-2">🔒</div>
+                    <h5 class="card-title fw-bold">Cơ Sở Dữ Liệu An Toàn</h5>
+                    <p class="card-text text-muted">Đồng bộ tự động thông qua Entity Framework Core Code-First trên SQL Server.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+@model IEnumerable<BookManagerApp.Models.Book>
+
+@{
+    ViewData["Title"] = "Danh Sách Sách";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <!-- Header Card -->
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+            <div>
+                <h4 class="mb-0 fw-bold text-primary">📚 Quản Lý Danh Sách Sách</h4>
+                <small class="text-muted">Tổng số sách hiện có: @Model.Count()</small>
+            </div>
+            <!-- Nút Thêm mới: Nền xanh lá cây -->
+            <a asp-action="Create" class="btn btn-success fw-semibold shadow-sm">
+                + Thêm Sách Mới
+            </a>
+        </div>
+
+        <!-- Table Body -->
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark text-nowrap">
+                        <tr>
+                            <th class="ps-3">Tên sách</th>
+                            <th>Tác giả</th>
+                            <th>Thể loại</th>
+                            <th class="text-end">Giá bán</th>
+                            <th class="text-center">Ngày phát hành</th>
+                            <th class="text-center pe-3" style="width: 220px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <div class="fs-4">📭</div>
+                                    <p class="mb-2">Hiện tại chưa có cuốn sách nào trong cơ sở dữ liệu.</p>
+                                    <a asp-action="Create" class="btn btn-sm btn-outline-success">Bấm vào đây để thêm cuốn sách đầu tiên</a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="ps-3 fw-bold text-dark">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">@item.Author</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">@(item.Genre ?? "Chưa phân loại")</span>
+                                    </td>
+                                    <td class="text-end fw-bold text-danger">
+                                        @(item.Price.HasValue ? item.Price.Value.ToString("N0") : "0") VNĐ
+                                    </td>
+                                    <td class="text-center text-muted">
+                                        @(item.PublishedDate.HasValue ? item.PublishedDate.Value.ToString("dd/MM/yyyy") : "")
+                                    </td>
+                                    <td class="text-center pe-3">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <!-- Nút Sửa: Nền xanh nước biển -->
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                                                Sửa
+                                            </a>
+                                            <!-- Nút Xem chi tiết -->
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info text-white">
+                                                Xem
+                                            </a>
+                                            <!-- Nút Xóa: Nền đỏ -->
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                                Xóa
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>s

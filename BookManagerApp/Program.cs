@@ -1,11 +1,15 @@
 using BookManagerApp.Data;
 using Microsoft.EntityFrameworkCore;
+using BookManagerApp.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Kết nối SQL Server với ConnectionString ở Bước 1
+// 1. Kết nối SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Tắt hoàn toàn log câu lệnh SQL (Executed DbCommand) của EF Core trên Console
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 
 builder.Services.AddControllersWithViews();
 
@@ -19,8 +23,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthorization();
+
+// 2. Kích hoạt Middleware (Đặt trước khi map route)
+app.UseMiddleware<RequestLoggingMiddleware>();
 
 app.MapStaticAssets();
 

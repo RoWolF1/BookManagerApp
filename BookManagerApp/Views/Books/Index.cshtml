@@ -58,10 +58,10 @@
                                         <span class="badge bg-secondary">@(item.Genre ?? "Chưa phân loại")</span>
                                     </td>
                                     <td class="text-end fw-bold text-danger">
-                                        @(item.Price.HasValue ? item.Price.Value.ToString("N0") : "0") VNĐ
+                                        @item.Price.ToString("N0") VNĐ
                                     </td>
                                     <td class="text-center text-muted">
-                                        @(item.PublishedDate.HasValue ? item.PublishedDate.Value.ToString("dd/MM/yyyy") : "")
+                                        @item.PublishedDate.ToString("dd/MM/yyyy")
                                     </td>
                                     <td class="text-center pe-3">
                                         <div class="btn-group btn-group-sm" role="group">

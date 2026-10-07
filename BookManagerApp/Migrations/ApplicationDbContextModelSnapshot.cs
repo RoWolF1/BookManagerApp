@@ -36,8 +36,12 @@ namespace BookManagerApp.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

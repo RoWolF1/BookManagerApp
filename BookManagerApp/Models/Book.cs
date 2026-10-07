@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookManagerApp.Models
 {
+    [Table("Books")]
     public class Book
     {
         [Key]
@@ -27,11 +28,15 @@ namespace BookManagerApp.Models
         [Range(1000, 100000000, ErrorMessage = "Giá bán phải từ 1,000 VNĐ")]
         [Column(TypeName = "decimal(18,2)")]
         [Display(Name = "Giá bán (VNĐ)")]
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn ngày phát hành!")]
         [DataType(DataType.Date)]
         [Display(Name = "Ngày phát hành")]
-        public DateTime? PublishedDate { get; set; }
+        public DateTime PublishedDate { get; set; } = DateTime.Today;
+
+        // Trường mới: Link ảnh bìa sách
+        [Display(Name = "Ảnh bìa sách (URL)")]
+        public string? ImageUrl { get; set; }
     }
 }

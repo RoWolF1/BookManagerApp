@@ -6,8 +6,8 @@
 
 <div class="container py-4">
     <div class="row justify-content-center">
-        <div class="col-md-7">
-            <!-- Hộp cảnh báo khi thiếu thông tin (ẩn mặc định) -->
+        <div class="col-md-8">
+            <!-- Hộp cảnh báo khi thiếu thông tin -->
             <div id="alertMissingFields" class="alert alert-danger alert-dismissible fade show d-none shadow-sm" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                 <strong>Điền thiếu thông tin!</strong> Vui lòng kiểm tra lại các trường có dấu (*) và nhập đầy đủ.
@@ -22,12 +22,14 @@
                     <form asp-action="Create" id="createBookForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+                        <!-- 1. Tên sách -->
                         <div class="mb-3">
                             <label asp-for="Title" class="form-label fw-bold"></label> <span class="text-danger">*</span>
                             <input asp-for="Title" class="form-control" placeholder="Ví dụ: Lập trình C# căn bản" />
                             <span asp-validation-for="Title" class="text-danger small"></span>
                         </div>
 
+                        <!-- 2. Tác giả & Thể loại -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="Author" class="form-label fw-bold"></label> <span class="text-danger">*</span>
@@ -41,6 +43,7 @@
                             </div>
                         </div>
 
+                        <!-- 3. Giá bán & Ngày phát hành -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label asp-for="Price" class="form-label fw-bold"></label> <span class="text-danger">*</span>
@@ -57,6 +60,24 @@
                             </div>
                         </div>
 
+                        <!-- 4. TRƯỜNG MỚI: Link Ảnh bìa sách (ImageUrl) & Khung xem trước -->
+                        <div class="mb-3">
+                            <label asp-for="ImageUrl" class="form-label fw-bold">Ảnh bìa sách (Đường dẫn URL)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-image"></i></span>
+                                <input asp-for="ImageUrl" id="inputImageUrl" class="form-control" placeholder="Dán đường link ảnh tại đây (ví dụ: https://.../bia-sach.jpg)" />
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
+                            <div class="form-text">Dán URL ảnh để xem trước bìa sách bên dưới.</div>
+                        </div>
+
+                        <!-- Khung xem trước ảnh bìa -->
+                        <div id="previewContainer" class="text-center p-3 mb-3 bg-light border rounded d-none">
+                            <span class="d-block text-muted small mb-2 fw-semibold">Xem trước ảnh bìa:</span>
+                            <img id="imgPreview" src="" alt="Ảnh bìa xem trước" class="rounded shadow-sm border" style="max-height: 180px; object-fit: contain;" />
+                        </div>
+
+                        <!-- Nút bấm -->
                         <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                             <a asp-action="Index" class="btn btn-outline-secondary">Quay lại</a>
                             <button type="submit" class="btn btn-success px-4 fw-bold shadow-sm">
@@ -75,6 +96,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
+        // Kiểm tra validation trước khi submit
         document.getElementById('createBookForm').addEventListener('submit', function(e) {
             var form = $(this);
             if (!form.valid()) {
@@ -82,6 +104,25 @@
                 alertBox.classList.remove('d-none');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+        });
+
+        // Tự động hiển thị xem trước ảnh ngay khi dán link
+        const inputUrl = document.getElementById('inputImageUrl');
+        const previewContainer = document.getElementById('previewContainer');
+        const imgPreview = document.getElementById('imgPreview');
+
+        inputUrl.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.length > 5) {
+                imgPreview.src = val;
+                previewContainer.classList.remove('d-none');
+            } else {
+                previewContainer.classList.add('d-none');
+            }
+        });
+
+        imgPreview.addEventListener('error', function() {
+            previewContainer.classList.add('d-none');
         });
     </script>
 }
